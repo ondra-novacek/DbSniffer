@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Local DB Change Feed</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 2rem;
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .event {
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .insert { border-left: 5px solid #22c55e; }
+    .update { border-left: 5px solid #eab308; }
+    .delete { border-left: 5px solid #ef4444; }
+
+    pre {
+      white-space: pre-wrap;
+      background: #030712;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    .meta {
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Local DB Change Feed</h1>
+  <p id="status">Connecting...</p>
+  <div id="events"></div>
+
+  <script>
+    const status = document.getElementById("status");
+    const events = document.getElementById("events");
+
+    const socket = new WebSocket(`ws://${location.host}`);
+
+    socket.onopen = () => {
+      status.textContent = "Connected";
+    };
+
+    socket.onclose = () => {
+      status.textContent = "Disconnected";
+    };
+
+    socket.onmessage = message => {
+      const event = JSON.parse(message.data);
+
+      const el = document.createElement("div");
+      el.className = `event ${event.type}`;
+
+      el.innerHTML = `
+        <div class="meta">
+          <strong>${event.type.toUpperCase()}</strong>
+          ${event.database}.${event.table}
+          at ${event.changedAt}
+        </div>
+        <pre>${escapeHtml(JSON.stringify(event.diff, null, 2))}</pre>
+      `;
+
+      events.prepend(el);
+    };
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+  </script>
+</body>
+</html>
