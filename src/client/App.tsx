@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import type { AuditEvent } from "../shared/types.js";
+import { AppHeader, type ConnectionStatus } from "./AppHeader.js";
+import { DiffView } from "./DiffView.js";
+import { EventHeader } from "./EventHeader.js";
 
-type ConnectionStatus = "connecting" | "connected" | "disconnected";
-
-const statusLabels: Record<ConnectionStatus, string> = {
-  connecting: "Connecting...",
-  connected: "Connected",
-  disconnected: "Disconnected",
-};
+const WATCH_DATABASE = "levelworks_2026_07_17";
 
 export function App() {
   const [status, setStatus] = useState<ConnectionStatus>("connecting");
@@ -36,13 +33,7 @@ export function App() {
 
   return (
     <main className="shell">
-      <header className="header">
-        <div>
-          <h1>Local DB Change Feed</h1>
-          <p className="subtitle">Live row changes from the watched MySQL database.</p>
-        </div>
-        <span className={`status status-${status}`}>{statusLabels[status]}</span>
-      </header>
+      <AppHeader database={events[0]?.database ?? WATCH_DATABASE} status={status} />
 
       <section className="events" aria-label="Database change events">
         {events.length === 0 ? (
@@ -50,14 +41,12 @@ export function App() {
         ) : (
           events.map((event, index) => (
             <article className={`event event-${event.type}`} key={`${event.changedAt}-${index}`}>
-              <div className="meta">
-                <strong>{event.type.toUpperCase()}</strong>
-                <span>
-                  {event.database}.{event.table}
-                </span>
-                <time dateTime={event.changedAt}>at {event.changedAt}</time>
-              </div>
-              <pre>{JSON.stringify(event.diff, null, 2)}</pre>
+              <EventHeader
+                type={event.type}
+                table={event.table}
+                changedAt={event.changedAt}
+              />
+              <DiffView type={event.type} diff={event.diff} />
             </article>
           ))
         )}

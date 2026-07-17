@@ -1,0 +1,31 @@
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, test } from "vitest";
+import { EventHeader, formatEventTime } from "./EventHeader.js";
+
+describe("formatEventTime", () => {
+  test("formats ISO timestamps as readable local dates", () => {
+    const formatted = formatEventTime("2026-07-17T14:54:39.000Z");
+
+    expect(formatted).toContain("17 Jul 2026");
+    expect(formatted).toContain("16:54:39");
+  });
+});
+
+describe("EventHeader", () => {
+  test("renders table name, formatted time, and event type without visible database name", () => {
+    const html = renderToStaticMarkup(
+      <EventHeader
+        type="update"
+        table="users"
+        changedAt="2026-07-17T14:54:39.000Z"
+      />,
+    );
+
+    expect(html).toContain("users");
+    expect(html).toContain("UPDATE");
+    expect(html).toContain("17 Jul 2026");
+    expect(html).toContain("16:54:39");
+    expect(html).toContain('dateTime="2026-07-17T14:54:39.000Z"');
+    expect(html).not.toContain("levelworks_2026_07_17.users");
+  });
+});
