@@ -37,4 +37,27 @@ describe("EventGroupList", () => {
     expect(html).toContain("&quot;Grace&quot;");
     expect(html).toContain("&quot;Ada&quot;");
   });
+
+  test("renders row primary keys for update and delete event headers", () => {
+    const html = renderToStaticMarkup(
+      <EventGroupList
+        events={[
+          makeEvent("2026-07-17T12:00:00.300Z", "users", "Grace"),
+          {
+            type: "delete",
+            database: "levelworks_2026_07_17",
+            table: "orders",
+            before: { id: 9, status: "open" },
+            after: null,
+            diff: { id: 9, status: "open" },
+            changedAt: "2026-07-17T12:00:00.000Z",
+          },
+        ]}
+      />,
+    );
+
+    expect(html).toContain("PK");
+    expect(html).toContain("1");
+    expect(html).toContain("9");
+  });
 });

@@ -1,9 +1,10 @@
-import type { AuditEventType } from "../shared/types.js";
+import type { AuditEventType, RowValue } from "../shared/types.js";
 
 interface EventHeaderProps {
   type: AuditEventType;
   table: string;
   changedAt: string;
+  rowPrimaryKey?: RowValue;
 }
 
 const eventTypeLabels: Record<AuditEventType, string> = {
@@ -28,6 +29,7 @@ export function EventHeader({
   type,
   table,
   changedAt,
+  rowPrimaryKey,
 }: EventHeaderProps) {
   return (
     <header className="event-header">
@@ -36,6 +38,9 @@ export function EventHeader({
           {eventTypeLabels[type]}
         </span>
         <code className="event-table">{table}</code>
+        {rowPrimaryKey !== undefined && rowPrimaryKey !== null ? (
+          <code className="event-row-primary-key">PK {String(rowPrimaryKey)}</code>
+        ) : null}
       </div>
       <time className="event-time" dateTime={changedAt} title={changedAt}>
         {formatEventTime(changedAt)}

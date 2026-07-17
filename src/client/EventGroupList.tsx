@@ -1,4 +1,4 @@
-import type { AuditEvent } from "../shared/types.js";
+import type { AuditEvent, RowValue } from "../shared/types.js";
 import { DiffView } from "./DiffView.js";
 import { EventHeader, formatEventTime } from "./EventHeader.js";
 import { groupEventsByTime } from "./EventGroups.js";
@@ -12,6 +12,16 @@ function formatGroupTime(newestChangedAt: string, oldestChangedAt: string) {
   const oldestTime = formatEventTime(oldestChangedAt);
 
   return newestTime === oldestTime ? newestTime : `${newestTime} - ${oldestTime}`;
+}
+
+function getRowPrimaryKey(event: AuditEvent): RowValue | undefined {
+  if (event.type === "insert") {
+    return undefined;
+  }
+
+  const row = event.before ?? event.after;
+
+  return row?.rowprimarykey ?? row?.rowPrimaryKey ?? row?.id;
 }
 
 export function EventGroupList({ events }: EventGroupListProps) {
@@ -54,6 +64,7 @@ export function EventGroupList({ events }: EventGroupListProps) {
                   type={event.type}
                   table={event.table}
                   changedAt={event.changedAt}
+                  rowPrimaryKey={getRowPrimaryKey(event)}
                 />
                 <DiffView type={event.type} diff={event.diff} />
               </article>

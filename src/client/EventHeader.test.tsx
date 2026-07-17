@@ -28,4 +28,18 @@ describe("EventHeader", () => {
     expect(html).toContain('dateTime="2026-07-17T14:54:39.000Z"');
     expect(html).not.toContain("levelworks_2026_07_17.users");
   });
+
+  test("renders the row primary key when provided", () => {
+    const html = renderToStaticMarkup(
+      <EventHeader
+        type="update"
+        table="users"
+        changedAt="2026-07-17T14:54:39.000Z"
+        rowPrimaryKey={42}
+      />,
+    );
+
+    expect(html).toContain("PK");
+    expect(html).toContain("42");
+  });
 });

@@ -219,6 +219,22 @@ h1 code {
   white-space: nowrap;
 }
 
+.event-row-primary-key {
+  flex: 0 0 auto;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.8);
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.76rem;
+  font-weight: 650;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
 .event-time {
   flex: 0 0 auto;
   color: #94a3b8;
