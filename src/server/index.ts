@@ -15,7 +15,7 @@ const MYSQL_CONFIG = {
   password: "cdc_password",
 };
 
-const WATCH_DATABASE = "levelworks_2026_06_10";
+const WATCH_DATABASE = "levelworks_2026_07_17";
 const PORT = Number(process.env.PORT ?? 1234);
 
 const __filename = fileURLToPath(import.meta.url);

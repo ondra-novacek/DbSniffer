@@ -21,6 +21,7 @@ interface UpdateRow {
 }
 
 const ignoredColumns = new Set(["events", "évents"]);
+const appendOnlyColumns = new Set(["events"]);
 
 function asRowData(row: unknown): RowData {
   if (!row || typeof row !== "object") {
@@ -51,6 +52,52 @@ function diffRows(before: RowData, after: RowData): ChangeDiff {
         from: before[key] as RowValue,
         to: after[key] as RowValue,
       };
+    }
+  }
+
+  return diff;
+}
+
+function getAppendedValues(
+  before: RowData,
+  after: RowData,
+  column: string,
+): RowValue[] {
+  const beforeValues = asArrayValue(before[column]);
+  const afterValues = asArrayValue(after[column]);
+
+  if (!afterValues) {
+    return [];
+  }
+
+  return afterValues.slice(beforeValues ? beforeValues.length : 0);
+}
+
+function asArrayValue(value: RowValue): RowValue[] | null {
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function diffAppendOnlyColumns(before: RowData, after: RowData): ChangeDiff {
+  const diff: ChangeDiff = {};
+
+  for (const column of appendOnlyColumns) {
+    const appendedValues = getAppendedValues(before, after, column);
+
+    if (appendedValues.length > 0) {
+      diff[column] = appendedValues;
     }
   }
 
@@ -92,6 +139,12 @@ export function normalizeBinlogEvent(
   if (event.getEventName() === "updaterows") {
     return rows.map((row) => {
       const updateRow = asUpdateRow(row);
+      const rawUpdateRow =
+        row && typeof row === "object" ? (row as Partial<UpdateRow>) : {};
+      const appendOnlyDiff = diffAppendOnlyColumns(
+        (rawUpdateRow.before ?? {}) as RowData,
+        (rawUpdateRow.after ?? {}) as RowData,
+      );
 
       return {
         type: "update",
@@ -99,7 +152,10 @@ export function normalizeBinlogEvent(
         table,
         before: updateRow.before,
         after: updateRow.after,
-        diff: diffRows(updateRow.before, updateRow.after),
+        diff: {
+          ...diffRows(updateRow.before, updateRow.after),
+          ...appendOnlyDiff,
+        },
         changedAt,
       };
     });

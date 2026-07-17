@@ -11,7 +11,7 @@ binlog_row_image=FULL
 CREATE USER 'cdc'@'localhost' IDENTIFIED BY 'cdc_password';
 
 GRANT REPLICATION SLAVE, REPLICATION CLIENT, SELECT
-ON _._
+ON *.*
 TO 'cdc'@'localhost';
 
 FLUSH PRIVILEGES;

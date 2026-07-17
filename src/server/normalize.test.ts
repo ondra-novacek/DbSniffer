@@ -59,7 +59,7 @@ describe("normalizeBinlogEvent", () => {
     });
   });
 
-  test("omits events columns from updated rows and diffs", () => {
+  test("shows only appended events in updated row diffs", () => {
     const [event] = normalizeBinlogEvent(
       makeEvent("updaterows", [
         {
@@ -89,14 +89,40 @@ describe("normalizeBinlogEvent", () => {
           from: "Ada",
           to: "Grace",
         },
+        events: [{ type: "UserRenamed" }],
       },
     });
     expect(event?.before).not.toHaveProperty("events");
     expect(event?.before).not.toHaveProperty("évents");
     expect(event?.after).not.toHaveProperty("events");
     expect(event?.after).not.toHaveProperty("évents");
-    expect(event?.diff).not.toHaveProperty("events");
+    expect(event?.diff).toHaveProperty("events");
     expect(event?.diff).not.toHaveProperty("évents");
+  });
+
+  test("parses appended events from json string columns", () => {
+    const [event] = normalizeBinlogEvent(
+      makeEvent("updaterows", [
+        {
+          before: {
+            id: 1,
+            events: JSON.stringify([{ type: "UserCreated" }]),
+          },
+          after: {
+            id: 1,
+            events: JSON.stringify([
+              { type: "UserCreated" },
+              { type: "UserRenamed", payload: { name: "Grace" } },
+            ]),
+          },
+        },
+      ]),
+      watchDatabase,
+    );
+
+    expect(event?.diff).toMatchObject({
+      events: [{ type: "UserRenamed", payload: { name: "Grace" } }],
+    });
   });
 
   test("normalizes deleted rows", () => {
