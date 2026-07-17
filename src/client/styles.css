@@ -87,7 +87,62 @@ h1 code {
 
 .events {
   display: grid;
-  gap: 12px;
+  gap: 150px;
+}
+
+.event-group {
+  display: grid;
+  gap: 8px;
+}
+
+.event-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid #263244;
+  border-radius: 8px;
+  background: #0b1220;
+  padding: 8px 12px;
+}
+
+.event-group-summary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.event-group-count {
+  flex: 0 0 auto;
+  color: #e5e7eb;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.event-group-tables {
+  overflow: hidden;
+  color: #94a3b8;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-group-time {
+  flex: 0 0 auto;
+  color: #64748b;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.75rem;
+}
+
+.event-group-events {
+  display: grid;
+  gap: 8px;
 }
 
 .event,
@@ -298,6 +353,16 @@ h1 code {
   .event-header {
     display: grid;
     gap: 8px;
+  }
+
+  .event-group-header {
+    display: grid;
+    gap: 6px;
+  }
+
+  .event-group-summary {
+    display: grid;
+    gap: 4px;
   }
 
   .event-time {

@@ -17,7 +17,7 @@ export function AppHeader({ database, status }: AppHeaderProps) {
   return (
     <header className="header">
       <h1>
-        <code>{database ?? DEFAULT_DATABASE}</code>
+        <code>{database ?? "Waiting for database"}</code>
       </h1>
       <span className={`status status-${status}`}>{statusLabels[status]}</span>
     </header>

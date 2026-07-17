@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import type { AuditEvent } from "../shared/types.js";
 import { AppHeader, type ConnectionStatus } from "./AppHeader.js";
-import { DiffView } from "./DiffView.js";
-import { EventHeader } from "./EventHeader.js";
+import { EventGroupList } from "./EventGroupList.js";
 
 const WATCH_DATABASE = "levelworks_2026_07_17";
 
@@ -39,16 +38,7 @@ export function App() {
         {events.length === 0 ? (
           <div className="empty">Waiting for database changes...</div>
         ) : (
-          events.map((event, index) => (
-            <article className={`event event-${event.type}`} key={`${event.changedAt}-${index}`}>
-              <EventHeader
-                type={event.type}
-                table={event.table}
-                changedAt={event.changedAt}
-              />
-              <DiffView type={event.type} diff={event.diff} />
-            </article>
-          ))
+          <EventGroupList events={events} />
         )}
       </section>
     </main>
