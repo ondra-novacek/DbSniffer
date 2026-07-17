@@ -60,4 +60,20 @@ describe("EventGroupList", () => {
     expect(html).toContain("1");
     expect(html).toContain("9");
   });
+
+  test("shows only the group start time and no per-card dates", () => {
+    const html = renderToStaticMarkup(
+      <EventGroupList
+        events={[
+          makeEvent("2026-07-17T12:00:00.300Z", "users", "Grace"),
+          makeEvent("2026-07-17T12:00:00.000Z", "orders", "Ada"),
+        ]}
+      />,
+    );
+
+    expect(html).toContain("14:00:00");
+    expect(html).toContain('dateTime="2026-07-17T12:00:00.000Z"');
+    expect(html).not.toContain("17 Jul 2026");
+    expect(html).not.toContain("14:00:00.300");
+  });
 });

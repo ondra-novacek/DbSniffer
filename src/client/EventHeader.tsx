@@ -3,7 +3,6 @@ import type { AuditEventType, RowValue } from "../shared/types.js";
 interface EventHeaderProps {
   type: AuditEventType;
   table: string;
-  changedAt: string;
   rowPrimaryKey?: RowValue;
 }
 
@@ -28,7 +27,6 @@ export function formatEventTime(changedAt: string) {
 export function EventHeader({
   type,
   table,
-  changedAt,
   rowPrimaryKey,
 }: EventHeaderProps) {
   return (
@@ -42,9 +40,6 @@ export function EventHeader({
           <code className="event-row-primary-key">PK {String(rowPrimaryKey)}</code>
         ) : null}
       </div>
-      <time className="event-time" dateTime={changedAt} title={changedAt}>
-        {formatEventTime(changedAt)}
-      </time>
     </header>
   );
 }

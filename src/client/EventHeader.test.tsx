@@ -12,20 +12,19 @@ describe("formatEventTime", () => {
 });
 
 describe("EventHeader", () => {
-  test("renders table name, formatted time, and event type without visible database name", () => {
+  test("renders table name and event type without a per-card timestamp", () => {
     const html = renderToStaticMarkup(
       <EventHeader
         type="update"
         table="users"
-        changedAt="2026-07-17T14:54:39.000Z"
       />,
     );
 
     expect(html).toContain("users");
     expect(html).toContain("UPDATE");
-    expect(html).toContain("17 Jul 2026");
-    expect(html).toContain("16:54:39");
-    expect(html).toContain('dateTime="2026-07-17T14:54:39.000Z"');
+    expect(html).not.toContain("17 Jul 2026");
+    expect(html).not.toContain("16:54:39");
+    expect(html).not.toContain("<time");
     expect(html).not.toContain("levelworks_2026_07_17.users");
   });
 
@@ -34,7 +33,6 @@ describe("EventHeader", () => {
       <EventHeader
         type="update"
         table="users"
-        changedAt="2026-07-17T14:54:39.000Z"
         rowPrimaryKey={42}
       />,
     );

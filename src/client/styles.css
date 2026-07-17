@@ -1,6 +1,6 @@
 :root {
-  color: #e5e7eb;
-  background: #0b1020;
+  color: #1f2937;
+  background: #f6f7fb;
   font-family:
     Inter,
     ui-sans-serif,
@@ -20,9 +20,7 @@
 body {
   min-width: 320px;
   margin: 0;
-  background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(3, 7, 18, 1) 260px),
-    #030712;
+  background: #f6f7fb;
 }
 
 button,
@@ -57,7 +55,7 @@ h1 code {
   overflow-wrap: anywhere;
   background: transparent;
   padding: 0;
-  color: #f8fafc;
+  color: #111827;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -67,22 +65,24 @@ h1 code {
 
 .status {
   flex: 0 0 auto;
-  border: 1px solid #334155;
+  border: 1px solid #cbd5e1;
   border-radius: 999px;
   padding: 6px 10px;
-  color: #e5e7eb;
-  background: #0f172a;
+  color: #334155;
+  background: #ffffff;
   font-size: 0.8125rem;
 }
 
 .status-connected {
-  border-color: #15803d;
-  color: #bbf7d0;
+  border-color: #86efac;
+  color: #166534;
+  background: #dcfce7;
 }
 
 .status-disconnected {
-  border-color: #b91c1c;
-  color: #fecaca;
+  border-color: #fca5a5;
+  color: #991b1b;
+  background: #fee2e2;
 }
 
 .events {
@@ -100,9 +100,9 @@ h1 code {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border: 1px solid #263244;
+  border: 1px solid #d8dee8;
   border-radius: 8px;
-  background: #0b1220;
+  background: #f8fafc;
   padding: 8px 12px;
 }
 
@@ -115,14 +115,14 @@ h1 code {
 
 .event-group-count {
   flex: 0 0 auto;
-  color: #e5e7eb;
+  color: #1f2937;
   font-size: 0.82rem;
   font-weight: 700;
 }
 
 .event-group-tables {
   overflow: hidden;
-  color: #94a3b8;
+  color: #475569;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -147,9 +147,9 @@ h1 code {
 
 .event,
 .empty {
-  border: 1px solid #263244;
+  border: 1px solid #d8dee8;
   border-radius: 8px;
-  background: #111827;
+  background: #ffffff;
 }
 
 .event {
@@ -158,7 +158,7 @@ h1 code {
 
 .empty {
   padding: 24px;
-  color: #cbd5e1;
+  color: #475569;
 }
 
 .event-header {
@@ -166,8 +166,8 @@ h1 code {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border-bottom: 1px solid #263244;
-  background: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
   padding: 10px 12px;
 }
 
@@ -192,23 +192,23 @@ h1 code {
 }
 
 .event-badge-insert {
-  color: #86efac;
-  background: rgba(20, 83, 45, 0.28);
+  color: #166534;
+  background: #dcfce7;
 }
 
 .event-badge-update {
-  color: #fde68a;
-  background: rgba(113, 63, 18, 0.28);
+  color: #92400e;
+  background: #fef3c7;
 }
 
 .event-badge-delete {
-  color: #fca5a5;
-  background: rgba(127, 29, 29, 0.28);
+  color: #991b1b;
+  background: #fee2e2;
 }
 
 .event-table {
   overflow: hidden;
-  color: #f8fafc;
+  color: #111827;
   background: transparent;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
@@ -221,11 +221,11 @@ h1 code {
 
 .event-row-primary-key {
   flex: 0 0 auto;
-  border: 1px solid #334155;
+  border: 1px solid #cbd5e1;
   border-radius: 4px;
   padding: 2px 6px;
-  color: #cbd5e1;
-  background: rgba(15, 23, 42, 0.8);
+  color: #334155;
+  background: #f1f5f9;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -237,7 +237,7 @@ h1 code {
 
 .event-time {
   flex: 0 0 auto;
-  color: #94a3b8;
+  color: #64748b;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -248,14 +248,14 @@ h1 code {
   overflow: hidden;
   border: 0;
   border-radius: 0;
-  background: #0d1117;
+  background: #ffffff;
 }
 
 .diff-empty {
-  border-top: 1px solid #30363d;
-  background: #0d1117;
+  border-top: 1px solid #d8dee8;
+  background: #ffffff;
   padding: 12px 16px;
-  color: #8b949e;
+  color: #64748b;
   font-size: 0.86rem;
 }
 
@@ -270,7 +270,7 @@ h1 code {
 }
 
 .diff-row + .diff-row {
-  border-top: 1px solid #30363d;
+  border-top: 1px solid #d8dee8;
 }
 
 .diff-row > * {
@@ -278,12 +278,12 @@ h1 code {
 }
 
 .diff-row > * + * {
-  border-left: 1px solid #30363d;
+  border-left: 1px solid #d8dee8;
 }
 
 .diff-header {
-  background: #161b22;
-  color: #8b949e;
+  background: #f1f5f9;
+  color: #475569;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0;
@@ -295,8 +295,8 @@ h1 code {
 
 .diff-field {
   overflow-wrap: anywhere;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: #ffffff;
+  color: #334155;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -310,7 +310,7 @@ h1 code {
   grid-template-columns: 28px minmax(0, 1fr);
   margin: 0;
   overflow-x: auto;
-  color: #c9d1d9;
+  color: #1f2937;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -332,23 +332,23 @@ h1 code {
 }
 
 .diff-value-removed {
-  background: #21161b;
-  color: #ffdcd7;
+  background: #fff1f2;
+  color: #7f1d1d;
 }
 
 .diff-value-added {
-  background: #12211b;
-  color: #aff5b4;
+  background: #f0fdf4;
+  color: #14532d;
 }
 
 .diff-value-empty {
-  background: #0d1117;
+  background: #ffffff;
 }
 
 .diff-value-empty::before {
   display: block;
   padding: 8px 12px;
-  color: #6e7681;
+  color: #94a3b8;
 }
 
 @media (max-width: 640px) {
@@ -396,7 +396,7 @@ h1 code {
 
   .diff-row > * + * {
     border-left: 0;
-    border-top: 1px solid #30363d;
+    border-top: 1px solid #d8dee8;
   }
 
   .diff-field::before,
@@ -405,7 +405,7 @@ h1 code {
     display: block;
     grid-column: 1 / -1;
     margin-bottom: 4px;
-    color: #8b949e;
+    color: #64748b;
     font-family:
       Inter,
       ui-sans-serif,

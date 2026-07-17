@@ -1,17 +1,19 @@
 import type { AuditEvent, RowValue } from "../shared/types.js";
 import { DiffView } from "./DiffView.js";
-import { EventHeader, formatEventTime } from "./EventHeader.js";
+import { EventHeader } from "./EventHeader.js";
 import { groupEventsByTime } from "./EventGroups.js";
 
 interface EventGroupListProps {
   events: AuditEvent[];
 }
 
-function formatGroupTime(newestChangedAt: string, oldestChangedAt: string) {
-  const newestTime = formatEventTime(newestChangedAt);
-  const oldestTime = formatEventTime(oldestChangedAt);
-
-  return newestTime === oldestTime ? newestTime : `${newestTime} - ${oldestTime}`;
+function formatGroupStartTime(changedAt: string) {
+  return new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(new Date(changedAt));
 }
 
 function getRowPrimaryKey(event: AuditEvent): RowValue | undefined {
@@ -43,14 +45,10 @@ export function EventGroupList({ events }: EventGroupListProps) {
             </div>
             <time
               className="event-group-time"
-              dateTime={group.newestChangedAt}
-              title={
-                group.newestChangedAt === group.oldestChangedAt
-                  ? group.newestChangedAt
-                  : `${group.newestChangedAt} - ${group.oldestChangedAt}`
-              }
+              dateTime={group.oldestChangedAt}
+              title={group.oldestChangedAt}
             >
-              {formatGroupTime(group.newestChangedAt, group.oldestChangedAt)}
+              {formatGroupStartTime(group.oldestChangedAt)}
             </time>
           </header>
 
@@ -63,7 +61,6 @@ export function EventGroupList({ events }: EventGroupListProps) {
                 <EventHeader
                   type={event.type}
                   table={event.table}
-                  changedAt={event.changedAt}
                   rowPrimaryKey={getRowPrimaryKey(event)}
                 />
                 <DiffView type={event.type} diff={event.diff} />
