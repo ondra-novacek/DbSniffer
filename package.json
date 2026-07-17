@@ -2,9 +2,14 @@
   "name": "dbsniffer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/server/index.ts",
+    "build": "vite build && tsc -p tsconfig.json",
+    "start": "node dist/server/index.js",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -19,7 +24,21 @@
   "homepage": "https://github.com/ondra-novacek/DbSniffer#readme",
   "dependencies": {
     "express": "^5.2.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "ws": "^8.21.0",
     "zongji": "^0.5.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.14",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.5",
+    "vitest": "^3.2.4"
   }
 }
