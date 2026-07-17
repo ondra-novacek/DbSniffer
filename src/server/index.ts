@@ -7,6 +7,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import ZongJi from "zongji";
 import type { AuditEvent } from "../shared/types.js";
 import { normalizeBinlogEvent, type BinlogEvent } from "./normalize.js";
+import { applyZongJiColumnOrderingPatch } from "./zongji-column-order.js";
 
 const MYSQL_CONFIG = {
   host: "localhost",
@@ -25,6 +26,8 @@ const publicFallbackPath = path.resolve(process.cwd(), "public");
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+
+applyZongJiColumnOrderingPatch(ZongJi);
 
 app.use(
   express.static(

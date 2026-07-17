@@ -20,7 +20,7 @@ interface UpdateRow {
   after: RowData;
 }
 
-const ignoredColumns = new Set(["events"]);
+const ignoredColumns = new Set(["events", "évents"]);
 
 function asRowData(row: unknown): RowData {
   if (!row || typeof row !== "object") {
