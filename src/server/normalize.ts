@@ -1,8 +1,16 @@
-import type { AuditEvent, ChangeDiff, RowData, RowValue } from "../shared/types.js";
+import type {
+  AuditEvent,
+  ChangeDiff,
+  RowData,
+  RowValue,
+} from "../shared/types.js";
 
 export interface BinlogEvent {
   tableId?: number | string;
-  tableMap?: Record<string | number, { parentSchema?: string; tableName?: string }>;
+  tableMap?: Record<
+    string | number,
+    { parentSchema?: string; tableName?: string }
+  >;
   rows?: unknown[];
   getEventName(): string;
 }
@@ -12,12 +20,21 @@ interface UpdateRow {
   after: RowData;
 }
 
+const ignoredColumns = new Set(["events"]);
+
 function asRowData(row: unknown): RowData {
-  return row && typeof row === "object" ? (row as RowData) : {};
+  if (!row || typeof row !== "object") {
+    return {};
+  }
+
+  return Object.fromEntries(
+    Object.entries(row as RowData).filter(([key]) => !ignoredColumns.has(key)),
+  );
 }
 
 function asUpdateRow(row: unknown): UpdateRow {
-  const value = row && typeof row === "object" ? (row as Partial<UpdateRow>) : {};
+  const value =
+    row && typeof row === "object" ? (row as Partial<UpdateRow>) : {};
 
   return {
     before: asRowData(value.before),
@@ -44,7 +61,8 @@ export function normalizeBinlogEvent(
   event: BinlogEvent,
   watchDatabase: string,
 ): AuditEvent[] {
-  const tableMap = event.tableId === undefined ? undefined : event.tableMap?.[event.tableId];
+  const tableMap =
+    event.tableId === undefined ? undefined : event.tableMap?.[event.tableId];
   const database = tableMap?.parentSchema;
   const table = tableMap?.tableName;
 

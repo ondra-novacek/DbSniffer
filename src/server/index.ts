@@ -26,7 +26,11 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
-app.use(express.static(fs.existsSync(clientDistPath) ? clientDistPath : publicFallbackPath));
+app.use(
+  express.static(
+    fs.existsSync(clientDistPath) ? clientDistPath : publicFallbackPath,
+  ),
+);
 
 function broadcast(event: AuditEvent) {
   const message = JSON.stringify(event);
@@ -45,12 +49,14 @@ function saveEvent(event: AuditEvent) {
 const zongji = new ZongJi(MYSQL_CONFIG);
 
 zongji.on("binlog", (event: BinlogEvent) => {
+  console.log("\n\n\n\n\n NEW EVENT:\n");
+  console.log(event);
   const changes = normalizeBinlogEvent(event, WATCH_DATABASE);
 
   for (const change of changes) {
     saveEvent(change);
     broadcast(change);
-    console.log(change);
+    // console.log(change);
   }
 });
 

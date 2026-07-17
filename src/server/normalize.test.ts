@@ -59,6 +59,46 @@ describe("normalizeBinlogEvent", () => {
     });
   });
 
+  test("omits events columns from updated rows and diffs", () => {
+    const [event] = normalizeBinlogEvent(
+      makeEvent("updaterows", [
+        {
+          before: {
+            id: 1,
+            name: "Ada",
+            events: [{ type: "UserCreated" }],
+            "évents": [{ type: "LegacyUserCreated" }],
+          },
+          after: {
+            id: 1,
+            name: "Grace",
+            events: [{ type: "UserCreated" }, { type: "UserRenamed" }],
+            "évents": [{ type: "LegacyUserCreated" }, { type: "LegacyUserRenamed" }],
+          },
+        },
+      ]),
+      watchDatabase,
+    );
+
+    expect(event).toMatchObject({
+      type: "update",
+      before: { id: 1, name: "Ada" },
+      after: { id: 1, name: "Grace" },
+      diff: {
+        name: {
+          from: "Ada",
+          to: "Grace",
+        },
+      },
+    });
+    expect(event?.before).not.toHaveProperty("events");
+    expect(event?.before).not.toHaveProperty("évents");
+    expect(event?.after).not.toHaveProperty("events");
+    expect(event?.after).not.toHaveProperty("évents");
+    expect(event?.diff).not.toHaveProperty("events");
+    expect(event?.diff).not.toHaveProperty("évents");
+  });
+
   test("normalizes deleted rows", () => {
     const [event] = normalizeBinlogEvent(
       makeEvent("deleterows", [{ id: 1, name: "Ada" }]),
