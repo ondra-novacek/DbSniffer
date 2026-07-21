@@ -24,11 +24,7 @@ export function formatEventTime(changedAt: string) {
   }).format(new Date(changedAt));
 }
 
-export function EventHeader({
-  type,
-  table,
-  rowPrimaryKey,
-}: EventHeaderProps) {
+export function EventHeader({ type, table, rowPrimaryKey }: EventHeaderProps) {
   return (
     <header className="event-header">
       <div className="event-title">
@@ -37,7 +33,7 @@ export function EventHeader({
         </span>
         <code className="event-table">{table}</code>
         {rowPrimaryKey !== undefined && rowPrimaryKey !== null ? (
-          <code className="event-row-primary-key">PK {String(rowPrimaryKey)}</code>
+          <code className="event-row-primary-key">{String(rowPrimaryKey)}</code>
         ) : null}
       </div>
     </header>

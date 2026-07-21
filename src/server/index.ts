@@ -52,14 +52,11 @@ function saveEvent(event: AuditEvent) {
 const zongji = new ZongJi(MYSQL_CONFIG);
 
 zongji.on("binlog", (event: BinlogEvent) => {
-  console.log("\n\n\n\n\n NEW EVENT:\n");
-  console.log(event);
   const changes = normalizeBinlogEvent(event, WATCH_DATABASE);
 
   for (const change of changes) {
     saveEvent(change);
     broadcast(change);
-    // console.log(change);
   }
 });
 

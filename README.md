@@ -11,7 +11,11 @@ binlog_row_image=FULL
 CREATE USER 'cdc'@'localhost' IDENTIFIED BY 'cdc_password';
 
 GRANT REPLICATION SLAVE, REPLICATION CLIENT, SELECT
-ON *.*
+ON _._
 TO 'cdc'@'localhost';
 
 FLUSH PRIVILEGES;
+
+## Set DB name
+
+in `src/server/index.ts` set `WATCH_DATABASE` to your db name
