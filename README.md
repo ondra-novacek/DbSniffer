@@ -1,21 +1,43 @@
-## Enable binlog (and restart mysql)
+# Setup
 
+## 1. Enable MySQL binary logging
+
+Add the following to your MySQL configuration:
+
+```ini
 [mysqld]
 server_id=1
 log_bin=mysql-bin
 binlog_format=ROW
 binlog_row_image=FULL
+```
 
-## Create user in DB
+Restart MySQL after.
 
+## 2. Create a database user
+
+```sql
 CREATE USER 'cdc'@'localhost' IDENTIFIED BY 'cdc_password';
 
 GRANT REPLICATION SLAVE, REPLICATION CLIENT, SELECT
-ON _._
+ON *.*
 TO 'cdc'@'localhost';
 
 FLUSH PRIVILEGES;
+```
 
-## Set DB name
+## 3. Configure the database
 
-in `src/server/index.ts` set `WATCH_DATABASE` to your db name
+In `src/server/index.ts`, set `WATCH_DATABASE` to the database you want to monitor.
+
+## 4. Install dependencies
+
+```bash
+npm install
+```
+
+# Run the app
+
+```bash
+npm run dev
+```

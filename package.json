@@ -5,7 +5,7 @@
   "main": "dist/server/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/server/index.ts",
+    "dev": "npm run build && npm run start",
     "build": "vite build && tsc -p tsconfig.json",
     "start": "node dist/server/index.js",
     "test": "vitest run",
